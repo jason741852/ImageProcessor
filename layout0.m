@@ -92,6 +92,33 @@ I1=uint8(I1);
 figure
 imshow(I1);
 
+figure
+imhist(I1);
+
+%gamma = 1/4;
+%I1p1 = 255*((I1./255).^gamma);
+%I1p2 = 255*(I1/255).^0.5;
+%I1p3 = 255*(I1/255).^0.75;
+%I1p4 = 255*(I1/255).^1.5;
+
+I1p1 = imadjust(I1,[0 1],[0 1],0.25);
+I1p2 = imadjust(I1,[0 1],[0 1],0.5);
+I1p3 = imadjust(I1,[0 1],[0 1],0.75);
+I1p4 = imadjust(I1,[0 1],[0 1],1.5);
+
+
+figure
+imshow(I1p1);
+
+figure
+imshow(I1p2);
+
+figure
+imshow(I1p3);
+
+figure
+imshow(I1p4);
+
 
 
 
