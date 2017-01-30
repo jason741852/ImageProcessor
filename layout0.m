@@ -22,7 +22,7 @@ function varargout = layout0(varargin)
 
 % Edit the above text to modify the response to help layout0
 
-% Last Modified by GUIDE v2.5 21-Jan-2017 15:50:19
+% Last Modified by GUIDE v2.5 30-Jan-2017 12:48:42
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -61,6 +61,14 @@ guidata(hObject, handles);
 % UIWAIT makes layout0 wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
+I = imread('plant.jpg');
+
+axes1 = gca;
+
+% axes(handles.axesImage);
+imshow(I);
+
+
 
 % --- Outputs from this function are returned to the command line.
 function varargout = layout0_OutputFcn(hObject, eventdata, handles) 
@@ -73,13 +81,13 @@ function varargout = layout0_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
-% --- Executes on button press in enter.
-function enter_Callback(hObject, eventdata, handles)
+% --- Executes on button press in grayscale.
+function grayscale_Callback(hObject, eventdata, handles)
 I = imread('plant.jpg');
-figure;
+
 axes1 = gca;
 
-axes(axes1);
+% axes(handles.axesImage);
 imshow(I);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,42 +96,77 @@ I1 = 0.2989*I(:,:,1)+0.5879*I(:,:,2)+0.1140*I(:,:,3);
 
 I1=uint8(I1);
 
-
-figure
-imshow(I1);
-
-figure
-imhist(I1);
-
-%gamma = 1/4;
-%I1p1 = 255*((I1./255).^gamma);
-%I1p2 = 255*(I1/255).^0.5;
-%I1p3 = 255*(I1/255).^0.75;
-%I1p4 = 255*(I1/255).^1.5;
-
-I1p1 = imadjust(I1,[0 1],[0 1],0.25);
-I1p2 = imadjust(I1,[0 1],[0 1],0.5);
-I1p3 = imadjust(I1,[0 1],[0 1],0.75);
-I1p4 = imadjust(I1,[0 1],[0 1],1.5);
-
-
-figure
-imshow(I1p1);
-
-figure
-imshow(I1p2);
-
-figure
-imshow(I1p3);
-
-figure
-imshow(I1p4);
+% 
+% figure
+% imshow(I1);
+% 
+% figure
+% imhist(I1);
+% 
+% 
+% I1p1 = imadjust(I1,[0 1],[0 1],0.25);
+% I1p2 = imadjust(I1,[0 1],[0 1],0.5);
+% I1p3 = imadjust(I1,[0 1],[0 1],0.75);
+% I1p4 = imadjust(I1,[0 1],[0 1],1.5);
+% 
+% 
+% figure
+% imshow(I1p1);
+% 
+% figure
+% imshow(I1p2);
+% 
+% figure
+% imshow(I1p3);
+% 
+% figure
+% imshow(I1p4);   
+% 
 
 
 
+% hObject    handle to grayscale (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
 
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
-% hObject    handle to enter (see GCBO)
+
+% --- Executes on button press in original_image.
+function original_image_Callback(hObject, eventdata, handles)
+% hObject    handle to original_image (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in ordered_dithering.
+function ordered_dithering_Callback(hObject, eventdata, handles)
+% hObject    handle to ordered_dithering (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton8 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
