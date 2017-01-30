@@ -22,7 +22,7 @@ function varargout = layout0(varargin)
 
 % Edit the above text to modify the response to help layout0
 
-% Last Modified by GUIDE v2.5 30-Jan-2017 12:48:42
+% Last Modified by GUIDE v2.5 30-Jan-2017 14:26:37
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -60,13 +60,14 @@ guidata(hObject, handles);
 
 % UIWAIT makes layout0 wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
-
-I = imread('plant.jpg');
-
-axes1 = gca;
-
-% axes(handles.axesImage);
+[FileName,PathName] = uigetfile('*.jpg','Select the MATLAB code file');
+FilePath = strcat(PathName,FileName);
+I = imread(FilePath);
 imshow(I);
+
+handles = guidata(hObject);
+handles.imgPath=FilePath;
+guidata(hObject, handles);
 
 
 
@@ -83,45 +84,19 @@ varargout{1} = handles.output;
 
 % --- Executes on button press in grayscale.
 function grayscale_Callback(hObject, eventdata, handles)
-I = imread('plant.jpg');
+img = handles.imgPath;
+I = imread(img);
 
-axes1 = gca;
-
-% axes(handles.axesImage);
-imshow(I);
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
 I = double(I);
 I1 = 0.2989*I(:,:,1)+0.5879*I(:,:,2)+0.1140*I(:,:,3);
 
 I1=uint8(I1);
 
-% 
-% figure
-% imshow(I1);
-% 
-% figure
-% imhist(I1);
-% 
-% 
-% I1p1 = imadjust(I1,[0 1],[0 1],0.25);
-% I1p2 = imadjust(I1,[0 1],[0 1],0.5);
-% I1p3 = imadjust(I1,[0 1],[0 1],0.75);
-% I1p4 = imadjust(I1,[0 1],[0 1],1.5);
-% 
-% 
-% figure
-% imshow(I1p1);
-% 
-% figure
-% imshow(I1p2);
-% 
-% figure
-% imshow(I1p3);
-% 
-% figure
-% imshow(I1p4);   
-% 
+imshow(I1);
+ 
+figure
+imhist(I1);
+
 
 
 
@@ -143,19 +118,125 @@ function original_image_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+img = handles.imgPath;
+I = imread(img);
+imshow(I);
 
-% --- Executes on button press in pushbutton5.
-function pushbutton5_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton5 (see GCBO)
+
+% --- Executes on button press in gamma_xformation.
+function gamma_xformation_Callback(hObject, eventdata, handles)
+% hObject    handle to gamma_xformation (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+img = handles.imgPath;
+I = imread(img);
+
+I = double(I);
+I1 = 0.2989*I(:,:,1)+0.5879*I(:,:,2)+0.1140*I(:,:,3);
+
+I1=uint8(I1);
+
+I1p1 = imadjust(I1,[0 1],[0 1],0.25);
+I1p2 = imadjust(I1,[0 1],[0 1],0.5);
+I1p3 = imadjust(I1,[0 1],[0 1],0.75);
+I1p4 = imadjust(I1,[0 1],[0 1],1.5);
+
+figure
+subplot(2, 4, 1);
+imshow(I1p1);
+subplot(2, 4, 5);
+imhist(I1p1);
+subplot(2, 4, 2);
+imshow(I1p2);
+subplot(2, 4, 6);
+imhist(I1p2);
+
+subplot(2, 4, 3);
+imshow(I1p3);
+subplot(2, 4, 7);
+imhist(I1p3);
+subplot(2, 4, 4);
+imshow(I1p4);
+subplot(2, 4, 8);
+imhist(I1p4);
 
 % --- Executes on button press in ordered_dithering.
 function ordered_dithering_Callback(hObject, eventdata, handles)
 % hObject    handle to ordered_dithering (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+img = handles.imgPath;
+I = imread(img);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I = double(I);
+I1 = 0.2989*I(:,:,1)+0.5879*I(:,:,2)+0.1140*I(:,:,3);
+
+
+I2=uint8(I1);
+
+D1 = [0 2;3 1];
+D2 = [0 8 2 10; 12 4 14 6; 3 11 1 9; 15 7 13 5];
+D3 = [0 32 8 40 2 34 10 42;48 16 56 24 50 18 58 26;12 44 4 36 14 46 6 38;60 28 52 20 62 30 54 22;3 35 11 43 1 33 9 41;51 19 59 27 49 17 57 25;15 47 7 39 13 45 5 37;63 31 55 23 61 29 53 21]; 
+
+O1 = zeros(size(I2));
+O2 = zeros(size(I2));
+O3 = zeros(size(I2));
+I2 = I2./(256/5);
+
+for x=1:size(I2,1)
+    for y=1:size(I2,2)
+        i=mod(x,size(D1,1));
+        j=mod(y,size(D1,1));
+        i=i+1;
+        j=j+1;
+        if I2(x,y) > D1(i,j)
+            O1(x,y)=1;
+        else
+            O1(x,y)=0;
+        end
+    end
+end
+
+
+for x=1:size(I2,1)
+    for y=1:size(I2,2)
+        i=mod(x,size(D2,1));
+        j=mod(y,size(D2,1));
+        i=i+1;
+        j=j+1;
+        if I2(x,y) > D2(i,j)
+            O2(x,y)=1;
+        else
+            O2(x,y)=0;
+        end
+    end
+end
+
+
+for x=1:size(I2,1)
+    for y=1:size(I2,2)
+        i=mod(x,size(D3,1));
+        j=mod(y,size(D3,1));
+        i=i+1;
+        j=j+1;
+        if I2(x,y) > D3(i,j)
+            O3(x,y)=1;
+        else
+            O3(x,y)=0;
+        end
+    end
+end
+
+figure
+subplot_tight(1,3,1);
+imshow(O1);
+subplot_tight(1,3,2);
+imshow(O2);
+subplot_tight(1,3,3);
+imshow(O3);
 
 
 % --- Executes on button press in pushbutton7.
